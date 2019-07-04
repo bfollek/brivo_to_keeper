@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 
+# Get user, pass from command line
+
+# print expires_in
+
 # The Legacy Application Flow works:
 # https://requests-oauthlib.readthedocs.io/en/latest/oauth2_workflow.html#id9
 
 # Header for api key? I thought it was required...
 # Probably best to add it, if I can figure out how...
+# Maybe it's not required to get the token. Only for calls after that?
 
-# Get user, pass from command line?
-
-# Does the redirect URL matter? Should I just use www.umfs.org?
 
 """
 Retrieving a token with the password grant type
@@ -75,13 +77,15 @@ import os
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 
+TOKEN_URL = "https://auth.brivo.com/oauth/token"
+
+api_key = os.environ["BRIVO_API_KEY"]
 client_id = os.environ["BRIVO_CLIENT_ID_PWD"]
 client_secret = os.environ["BRIVO_CLIENT_SECRET_PWD"]
 username = os.environ["BRIVO_USER"]
 password = os.environ["BRIVO_PWD"]
 
 oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
-token_url = 'https://auth.brivo.com/oauth/token'
-token = oauth.fetch_token(token_url=token_url, username=username,
+token = oauth.fetch_token(token_url=TOKEN_URL, username=username,
                           password=password, client_id=client_id, client_secret=client_secret)
 print(token)
