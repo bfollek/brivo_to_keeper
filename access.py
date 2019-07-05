@@ -82,8 +82,8 @@ TOKEN_URL = "https://auth.brivo.com/oauth/token"
 api_key = os.environ["BRIVO_API_KEY"]
 client_id = os.environ["BRIVO_CLIENT_ID_PWD"]
 client_secret = os.environ["BRIVO_CLIENT_SECRET_PWD"]
-username = os.environ["BRIVO_USER"]
-password = os.environ["BRIVO_PWD"]
+username = os.environ["BRIVO_USERNAME"]
+password = os.environ["BRIVO_PASSWORD"]
 
 oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
 token = oauth.fetch_token(token_url=TOKEN_URL, username=username,
