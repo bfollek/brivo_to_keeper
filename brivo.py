@@ -12,8 +12,6 @@ class Brivo:
         # Connect and get an access token
         client = LegacyApplicationClient(client_id=client_id)
         oauth = OAuth2Session(client=client)
-        # oauth = OAuth2Session(
-        #     client=LegacyApplicationClient(client_id=client_id))
         self._token = oauth.fetch_token(token_url=TOKEN_URL, username=username,
                                         password=password, client_id=client_id, client_secret=client_secret)
         # Set up the headers we'll need for each request
