@@ -10,8 +10,10 @@ class Brivo:
 
     def __init__(self, username, password, client_id, client_secret, api_key):
         # Connect and get an access token
-        oauth = OAuth2Session(
-            client=LegacyApplicationClient(client_id=client_id))
+        client = LegacyApplicationClient(client_id=client_id)
+        oauth = OAuth2Session(client=client)
+        # oauth = OAuth2Session(
+        #     client=LegacyApplicationClient(client_id=client_id))
         self._token = oauth.fetch_token(token_url=TOKEN_URL, username=username,
                                         password=password, client_id=client_id, client_secret=client_secret)
         # Set up the headers we'll need for each request
@@ -19,21 +21,13 @@ class Brivo:
                                  "Authorization": f"bearer {self._token['access_token']}",
                                  "Content-type": "application/json"}
 
-    @property
-    def users(self, **kwargs):
+    def users(self, **optional_fields):
         """
-        Return the list of users as a list of dictionaries.
-        Use kwargs to pass any of the optional querystring params.
-        TODO Use the kwargs
+        Returns the list of users. Each user is a dictionary of field/value items.
+        Use optional_fields to pass any of the optional querystring params.
+        See https://apidocs.brivo.com/#api-User-ListUsers
         """
-        r = requests.get(USERS_URL, headers=self._request_headers)
+        r = requests.get(
+            USERS_URL, headers=self._request_headers, params=optional_fields)
         r.raise_for_status()
         return r.json()['data']
-
-
-"""
-Calls to api.brivo.com require a Mashery API key and Authorization header.
-Header 	Value
-api-key 	API_KEY
-Authorization 	bearer ACCESS_TOKEN_VALUE
-"""
